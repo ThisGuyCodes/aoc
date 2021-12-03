@@ -1,5 +1,5 @@
-export async function first(data) {
-    const depthReadings = async function* () {
+export async function first(data: AsyncIterable<string>) {
+    const depthReadings = async function* (): AsyncGenerator<number, void, void> {
         for await (const line of data) {
             yield parseInt(line);
         }
@@ -17,7 +17,7 @@ export async function first(data) {
     return increasingCount;
 }
 
-export async function second(data) {
+export async function second(data: AsyncIterable<string>) {
     const depthReadings = async function* () {
         for await (const line of data) {
             yield parseInt(line);
