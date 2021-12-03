@@ -24,7 +24,7 @@ async function getDataInterface(path: string) {
     const secondData = await getDataInterface("./01/data.txt");
     const secondResult = await oneSecond(secondData);
     console.log(secondResult);
-})();
+});
 
 (async function() {
     const firstData = await getDataInterface("./02/data.txt");
