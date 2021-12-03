@@ -35,5 +35,3 @@ const getDataInterface = async function(path: string) {
     const secondResult = await twoSecond(secondData);
     console.log(secondResult);
 })();
-
-export {};

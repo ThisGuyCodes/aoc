@@ -54,5 +54,25 @@ export async function first(data: AsyncIterable<string>) {
 };
 
 export async function second(data: AsyncIterable<string>) {
+    let xPos = 0;
+    let depth = 0;
+    let aim = 0;
+    
+    const commands = await parseCommands(data);
+    for await (const command of commands) {
+        switch (command.direction) {
+            case Direction.Forward:
+                xPos += command.distance;
+                depth += aim * command.distance;
+                break;
+            case Direction.Down:
+                aim += command.distance;
+                break;
+            case Direction.Up:
+                aim -= command.distance;
+                break;
+        }
+    }
 
+    return xPos * depth;
 };
