@@ -4,7 +4,6 @@ export enum Direction {
     Up,
 }
 
-
 export interface Command {
     direction: Direction;
     distance: number;
