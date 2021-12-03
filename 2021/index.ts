@@ -7,14 +7,14 @@ import { second as oneSecond } from "./01/index";
 import { first as twoFirst } from "./02/index";
 import { second as twoSecond } from "./02/index";
 
-async function getDataInterface(path: string) {
+const getDataInterface = async function(path: string) {
     const dataStream = await createReadStream(path);
     const data = createInterface({
         input: dataStream
     });
 
     return data;
-}
+};
 
 (async function() {
     const firstData = await getDataInterface("./01/data.txt");
