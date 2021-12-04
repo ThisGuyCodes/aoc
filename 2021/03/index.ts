@@ -1,3 +1,5 @@
+import { listenerCount } from "process";
+
 const parseDiag = async function*(data: AsyncIterable<string>) {
     for await (const line of data) {
         yield BigInt("0b" + line);
@@ -45,5 +47,42 @@ export async function first(data: AsyncIterable<string>) {
     return gammaRate * epsilonRate;
 }
 
+type bits = Array<boolean>;
+
 export async function second(data: AsyncIterable<string>) {
+    let allData: Array<bits> = [];
+    const diags = await parseDiag(data);
+    for await (const diag of diags) {
+        const theseBits = diag.toString(2);
+        const leftPad = "0".repeat(bitWidth - theseBits.length);
+        const paddedBits = (leftPad + theseBits).split("").map(BigInt).map(Boolean);
+        allData.push(paddedBits);
+    }
+    let coScrubCandidates = [...allData];
+    let oxGenCandidates = [...allData];
+
+    allData[0].forEach((_, bitNum) => {
+        if (oxGenCandidates.length > 1) {
+            const oneCount = oxGenCandidates.map((candidate) => {
+                return BigInt(candidate[bitNum]);
+            }).reduce((previous, current) => previous + current);
+            const acceptedBit = (oneCount >= oxGenCandidates.length / 2);
+            oxGenCandidates = oxGenCandidates.filter((candidate) => {
+                return (candidate[bitNum] === acceptedBit);
+            });
+        };
+        if (coScrubCandidates.length > 1) {
+            const oneCount = coScrubCandidates.map((candidate) => {
+                return BigInt(candidate[bitNum]);
+            }).reduce((previous, current) => previous + current);
+            const acceptedBit = (oneCount < coScrubCandidates.length / 2);
+            coScrubCandidates = coScrubCandidates.filter((candidate) => {
+                return (candidate[bitNum] === acceptedBit);
+            });
+        };
+    });
+
+    const oxGenString = oxGenCandidates[0].map(Number).map((a) => a.toString()).reduce((a,b) => a+b);
+    const coScrubString = coScrubCandidates[0].map(Number).map((a) => a.toString()).reduce((a,b) => a+b);
+    return BigInt("0b" + oxGenString) * BigInt("0b" + coScrubString);
 }
