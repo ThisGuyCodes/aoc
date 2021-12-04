@@ -1,5 +1,3 @@
-import { listenerCount } from "process";
-
 const parseDiag = async function*(data: AsyncIterable<string>) {
     for await (const line of data) {
         yield BigInt("0b" + line);
