@@ -22,9 +22,9 @@
             }
         },
         {
-            "label": "watch",
+            "label": "type checking",
             "type": "shell",
-            "command": "yarn tsc --watch",
+            "command": "yarn tsc --watch --noEmit",
             "problemMatcher": ["$tsc-watch"],
             "group": "build",
             "runOptions": {

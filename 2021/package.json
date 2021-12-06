@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@swc/cli": "^0.1.52",
+    "@swc/core": "^1.2.118",
     "@types/node": "^16.11.11",
     "typescript": "^4.5.2"
   },
