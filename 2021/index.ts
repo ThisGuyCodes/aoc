@@ -50,7 +50,7 @@ const getDataInterface = async function(path: string) {
     const secondData = await getDataInterface("./03/data.txt");
     const secondResult = await threeSecond(secondData);
     console.log(secondResult);
-})();
+});
 
 (async function() {
     const firstData = await getDataInterface("./04/data.txt");
