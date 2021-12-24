@@ -22,42 +22,28 @@ const getDataInterface = async function(path: string) {
     return data;
 };
 
+const runDay = async function(day: number, first: (data: AsyncIterable<string>) => Promise<any>, second: (data: AsyncIterable<string>) => Promise<any>) {
+    const dayString = day.toString().padStart(2, '0');
+    const dataLoc = `./${dayString}/data.txt`;
+
+    const firstData = await getDataInterface(dataLoc);
+    const firstResult = await first(firstData);
+    console.log(`Day ${dayString}a: ${firstResult}`)
+
+    const secondData = await getDataInterface(dataLoc);
+    const secondResult = await second(secondData);
+    console.log(`Day ${dayString}b: ${secondResult}`)
+};
 (async function() {
-    const firstData = await getDataInterface("./01/data.txt");
-    const firstResult = await oneFirst(firstData);
-    console.log(firstResult);
+    let day = 1;
+    await runDay(day, oneFirst, oneSecond);
 
-    const secondData = await getDataInterface("./01/data.txt");
-    const secondResult = await oneSecond(secondData);
-    console.log(secondResult);
-});
+    day++;
+    await runDay(day, twoFirst, twoSecond);
 
-(async function() {
-    const firstData = await getDataInterface("./02/data.txt");
-    const firstResult = await twoFirst(firstData);
-    console.log(firstResult);
+    day++;
+    await runDay(day, threeFirst, threeSecond);
 
-    const secondData = await getDataInterface("./02/data.txt");
-    const secondResult = await twoSecond(secondData);
-    console.log(secondResult);
-});
-
-(async function() {
-    const firstData = await getDataInterface("./03/data.txt");
-    const firstResult = await threeFirst(firstData);
-    console.log(firstResult);
-
-    const secondData = await getDataInterface("./03/data.txt");
-    const secondResult = await threeSecond(secondData);
-    console.log(secondResult);
-});
-
-(async function() {
-    const firstData = await getDataInterface("./04/data.txt");
-    const firstResult = await fourFirst(firstData);
-    console.log(firstResult);
-
-    const secondData = await getDataInterface("./04/data.txt");
-    const secondResult = await fourSecond(secondData);
-    console.log(secondResult);
+    day++;
+    await runDay(day, fourFirst, fourSecond);
 })();
