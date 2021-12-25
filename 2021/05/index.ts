@@ -12,36 +12,25 @@ class Point {
     };
 
     *to(point: Point): Iterable<Point> {
-        let changeProp: string;
-        let unchanged: number;
-        let changeFrom: number;
-        let changeTo: number;
+        let fromX = this.x;
+        let toX = point.x;
 
-        if (this.x === point.x) {
-            changeProp = "y";
-            unchanged = this.x;
-            changeFrom = this.y;
-            changeTo = point.y;
-        } else {
-            changeProp = "x";
-            unchanged = this.y;
-            changeFrom = this.x;
-            changeTo = point.x;
-        };
-        
-        if (changeFrom > changeTo) {
-            [changeFrom, changeTo] = [changeTo, changeFrom];
-        };
+        let fromY = this.y;
+        let toY = point.y;
 
-        for (let changing = changeFrom; changing <= changeTo; changing++) {
-            if (changeProp === "y") {
-                yield new Point(unchanged, changing);
-            } else {
-                yield new Point(changing, unchanged);
-            };
+        let x = fromX;
+        let y = fromY;
+
+        while (true) {
+            yield new Point(x, y);
+            if (x === toX && y === toY) break;
+            if (x < toX) x++;
+            if (x > toX) x--;
+            if (y < toY) y++;
+            if (y > toY) y--;
         };
     };
-}
+};
 
 class Vent {
     start: Point;
@@ -98,5 +87,8 @@ export async function first(data: AsyncIterable<string>) {
 };
 
 export async function second(data: AsyncIterable<string>) {
-    return ""
+    const map = new VentMap();
+    const parsed = await parseData(data);
+    parsed.forEach(vent => map.plotVent(vent));
+    return [...map.values()].filter(count => count > 1).length;
 };
