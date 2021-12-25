@@ -13,6 +13,9 @@ import { second as threeSecond } from "./03/index";
 import { first as fourFirst } from "./04/index";
 import { second as fourSecond } from "./04/index";
 
+import { first as fiveFirst } from "./05/index";
+import { second as fiveSecond } from "./05/index";
+
 const getDataInterface = async function(path: string) {
     const dataStream = await createReadStream(path);
     const data = createInterface({
@@ -46,4 +49,7 @@ const runDay = async function(day: number, first: (data: AsyncIterable<string>) 
 
     day++;
     await runDay(day, fourFirst, fourSecond);
+
+    day++;
+    await runDay(day, fiveFirst, fiveSecond);
 })();
