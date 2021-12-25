@@ -15,8 +15,12 @@ import { second as fourSecond } from "./04/index";
 
 import { first as fiveFirst } from "./05/index";
 import { second as fiveSecond } from "./05/index";
+
 import { first as sixFirst } from "./06/index";
 import { second as sixSecond } from "./06/index";
+
+import { first as sevenFirst } from "./07/index";
+import { second as sevenSecond } from "./07/index";
 
 const getDataInterface = async function(path: string) {
     const dataStream = await createReadStream(path);
@@ -57,4 +61,7 @@ const runDay = async function(day: number, first: (data: AsyncIterable<string>) 
 
     day++;
     await runDay(day, sixFirst, sixSecond);
+
+    day++;
+    await runDay(day, sevenFirst, sevenSecond);
 })();
